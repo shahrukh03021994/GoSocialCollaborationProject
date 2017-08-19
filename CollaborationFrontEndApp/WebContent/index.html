@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html data-ng-app = "collaboration" data-ng-controller="UserController">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta charset="ISO-8859-1">
+<title>Collaoration App</title>
+
+<script type="text/javascript" src="c_resources/js/jquery-3.2.1.js"></script>
+
+<script type="text/javascript" src="c_resources/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="c_resources/css/bootstrap.min.css">
+<link rel="stylesheet" href="c_resources/css/my.css">
+<link rel="stylesheet" href="c_resources/css/default.css">
+
+<script type="text/javascript" src="c_resources/js/angular.min.js"></script>
+  <script src="c_resources/js/angular-route.min.js"></script>
+    <script src="c_resources/js/angular-cookies.min.js"></script>
+      <script src="c_resources/js/angular-cookies.js"></script>
+  
+<script type="text/javascript" src="app.js"></script>
+<script src="c_resources/js/sockjs.min.js"></script>
+<script src="c_resources/js/stomp.min.js"></script>
+
+<script type="text/javascript" src="c_user/UserController.js"></script>
+<script type="text/javascript" src="c_user/UserService.js"></script>
+
+<style>
+body
+{
+    background-color:black;
+    background-repeat: no-repeat;
+	opacity:0.8;
+    background-size: 100%; 
+    padding-bottom: 75px;
+	background-attachment: fixed;
+}
+</style>
+</head>
+<body>
+<div >
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <ul class="nav navbar-nav navbar-left">
+      			<li><a href="#/"><img alt="GS" src="c_resources/images/go-social.png" height="40" width="60"></a></li>
+      			<li><font style="font-size: 35px"><a class="navbar-brand" style="color: orange;" href="#/">
+      			<strong>HOME</strong></a></font></li>
+   	  </ul>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+   	</div>
+
+   <!--   Collect the nav links, forms, and other content for toggling 
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+ <ul class="nav navbar-nav navbar-right">
+      		<li>
+				<a class="navbar-brand" style="color:lightblue;" href="#/login" ><span class="glyphicon glyphicon-log-out"></span> LOGIN</a></li>
+			<li >
+				<a class="navbar-brand" style="color: lightblue;" href="#/register"><span class="glyphicon glyphicon-user"></span> SIGN UP</a></li>
+			
+	</ul> -->
+	
+	
+	
+	<!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+      		<li data-ng-if="currentUser.role=='ADMIN'">
+				<a style="color: white" href="#/admin">MANAGE WEBSITE</a></li>
+     		<li data-ng-show="currentUser.username">
+     			<img data-ng-src="images/{{currentUser.username}}" onerror="this.src='c_resources/images/profilepic.png'" class="img-circle" height="35" width="35"></li>
+     		<li data-ng-show="currentUser.username">
+				<a style="color: white" href="#/myProfile"> Welcome, {{currentUser.first_name}}</a></li>
+			<li data-ng-show="!currentUser.username">
+				<a style="color: white" href="#/login"><span class="glyphicon glyphicon-log-in"></span> LOGIN</a></li>
+			<li data-ng-show="currentUser.username">
+				<a style="color: white" href="" data-ng-click = "logout()"><span class="glyphicon glyphicon-log-out"></span> LOGOUT</a></li>
+			<li data-ng-show="!currentUser.username">
+				<a style="color: white" href="#/register"><span class="glyphicon glyphicon-user"></span> SIGN UP</a></li>
+			
+	</ul>
+	
+	
+	
+	
+	
+	
+	
+      <ul class="nav navbar-nav navbar-left">
+        <li><a class="navbar-brand" style="color: orange;" href="#/viewBlogs">BLOGS</a></li>
+       	<li><a class="navbar-brand" style="color: orange;" href="#/viewForums">FORUMS</a></li>
+       	<li><a class="navbar-brand" style="color: orange;" href="#/viewJobs">JOB HUNT</a></li>
+       	<li><a class="navbar-brand" style="color: orange;" href="#/viewEvents">EVENTS</a></li>
+       	<li data-ng-show="currentUser.username">
+				<a style="color: white" href="#/viewUsers"><span class="glyphicon glyphicon-user"></span>SEARCH USERS</a></li>
+	 </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+.<hr><br>
+</div>
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	<div class="container" data-ng-view></div>
+
+
+
+
+
+
+
+	<nav class="navbar navbar-default navbar-fixed-bottom"
+		style="background-color: black; color: white;">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+
+				<marquee width="1400px" behavior="slide" direction="left"
+					scrollamount="7">
+					<h4>Website developed and maintained by Mohammed Shahrukh Khan</h4>
+				</marquee>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropup"><a style="color: white;"
+						class="dropdown-toggle" data-toggle="dropdown" href="">Chat<span
+							class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li data-ng-repeat="f in friends">
+								<table>
+									<tr>
+										<td width="15px]"></td>
+
+										<td></td>
+									</tr>
+								</table>
+
+							</li>
+						</ul></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+
+</body>
+
+
+</html>
