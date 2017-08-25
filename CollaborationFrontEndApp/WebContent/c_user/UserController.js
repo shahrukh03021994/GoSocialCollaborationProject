@@ -18,8 +18,12 @@ app.controller('UserController',function($scope, UserService, $location, $rootSc
 						errorMsg:'',
 						errorCode:'',};
 
+					$scope.users;
+
+					$scope.myJobs;
 					$scope.message;
-			
+					$scope.friend;
+
 					
 					$scope.registerUser=function()
 					{
@@ -69,7 +73,7 @@ app.controller('UserController',function($scope, UserService, $location, $rootSc
 									user.setErrorCode("404");
 									user.setErrorCode("Your Registeration is Not Approved");
 								}
-								if($scope.user.username ==null && $scope.user.password==null)
+								if($scope.user.username ==null)
 								{
 									alert("Invalid Username or Password");
 									console.log("Invalid Username or Password")
@@ -137,4 +141,57 @@ app.controller('UserController',function($scope, UserService, $location, $rootSc
 					
 					
 					
-				});
+					$scope.applyJob= function(job)
+					{
+						console.log("Entering Job Apply")
+						UserService.applyJob(job)
+						.then
+						(
+							function(response)
+							{
+								console.log("Job Applied")
+								alert("You applied for the Job")
+								$location.path("/viewJobs")
+							}
+						)
+					};
+					
+						
+//to send request to friend
+
+					$scope.friendRequest= function(username)
+					{
+						console.log("Entering Send Friend Request");
+						UserService.friendRequest(username)
+						.then 
+						(
+							function(response)
+							{
+								console.log(response.status);
+								alert('FriendRequest is Sent');
+								listUser();
+								$location.path("/viewUsers");
+							}, function(errResponse)
+							{
+								console.error("Error sending Friend Request");
+								$location.path("/viewUsers");
+							}
+						)
+					};	
+					
+				
+					
+					$scope.getProfile = function(username)
+					{
+						console.log("Entering View Friend")
+						UserService.getProfile(username)
+						.then
+						(
+							function(response)
+							{
+								console.log("Friend Retrieved")
+								$location.path("/viewProfile")	
+							}
+						)
+					};
+				})

@@ -16,8 +16,9 @@ body {
 			<h2 style="text-align: center;">{{currentUser.first_name}}
 				{{currentUser.last_name}}</h2>
 			<p style="text-align: center;">
-				<img data-ng-src="images/{{currentUser.username}}"
-					onerror="this.src='c_resources/images/profilepic.png'" height="250" width="250">
+				<img data-ng-src="c_resources/images/{{currentUser.username}}"
+					onerror="this.src='c_resources/images/profilepic.png'" height="250"
+					width="250">
 			</p>
 			<p style="text-align: center;">
 				<a class="btn btn-default" href="#/upload">Upload New Profile
@@ -45,7 +46,7 @@ body {
 
 						<tr>
 							<th>UserName:</th>
-							
+
 							<td>{{currentUser.username}}</td>
 						</tr>
 						<tr>
@@ -83,8 +84,8 @@ body {
 						<tr>
 							<th>Gender:</th>
 							<td>
-								<p data-ng-if="currentUser.gender == 'M'">Male</p>
-								<p data-ng-if="currentUser.gender == 'F'">Female</p>
+								<h3 data-ng-if="currentUser.gender == 'M'">Male</h3>
+								<h3 data-ng-if="currentUser.gender == 'F'">Female</h3>
 							</td>
 						</tr>
 						<tr>
@@ -107,7 +108,185 @@ body {
 						</tr>
 					</table>
 				</div>
-			</div>
+
+
+
+
+
+
+<div id="myFriends" class="tab-pane fade">
+						<h3>Friends List</h3>
+						<div data-ng-if="friends">
+						<div class="row" data-ng-repeat="f in friends">
+							<div class="col-sm-2">
+								<p style="text-align: center;"><img data-ng-if="f.friendID==currentUser.username" data-ng-src="c_resources/images/{{f.userID}}" onerror="this.src='c_resources/images/profilepic.png'" class="img-circle" height="75" width="75"></p>
+								<p style="text-align: center;"><img data-ng-if="f.userID==currentUser.username" data-ng-src="c_resources/images/{{f.friendID}}" onerror="this.src='c_resources/images/profilepic.png'" class="img-circle" height="75" width="75"></p>
+							</div>
+							<div class="col-sm-8">
+								<table class="table">
+									<tr>
+											<td data-ng-if="f.friendID==currentUser.username"><strong>UserName:</strong><a href="" data-ng-click="getProfile(f.userID)" > {{f.userID}}</a></td>
+											<td data-ng-if="f.userID==currentUser.username"><strong>UserName:</strong><a href="" data-ng-click="getProfile(f.friendID)" > {{f.friendID}}</a></td>
+											
+									</tr>
+									<tr>
+											<td data-ng-if="f.friendID==currentUser.username"><strong>Name:</strong> {{f.userFName}} {{f.userLName}}</td>
+											<td data-ng-if="f.userID==currentUser.username"><strong>Name:</strong> {{f.friendFName}} {{f.friendLName}}</td>
+									</tr>
+									<tr>
+											<td data-ng-if="f.friendID==currentUser.username"><strong>Online:</strong> {{f.userIsOnline}}</td>
+											<td data-ng-if="f.userID==currentUser.username"><strong>Online:</strong> {{f.friendisOnline}}</td>
+									</tr>
+									
+								</table>
+							</div>
+							<div class="col-sm-2">
+								<a class="btn btn-danger" data-ng-if="f.friendID==currentUser.username" href="" data-ng-click="removeFriend(f.userID)">Remove Friend</a>
+								<a class="btn btn-danger" data-ng-if="f.userID==currentUser.username" href="" data-ng-click="removeFriend(f.friendID)">Remove Friend</a>
+							</div>
+						</div>
+						
+						</div>
+						<div data-ng-if="!friends">
+							You have no friends.
+						</div>
+					</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<div id="pendingRequests" class="tab-pane fade">
+					<h3>Pending Requests</h3>
+					<div data-ng-if="pendingRequest">
+						<div class="row" data-ng-repeat="p in pendingRequest">
+							<div class="col-md-2">
+								<p style="text-align: center;">
+									<img data-ng-src="c_resources/images/{{p.userID}}"
+										onerror="this.src='c_resources/images/profilepic.png'" class="img-circle"
+										height="75" width="75">
+								</p>
+							</div>
+							<div class="col-md-6">
+							
+								<table class="table">
+									<tr>
+										<td><strong>UserName:</strong><a
+											data-ng-click="getProfile(p.userID)"> {{p.userID}} </a></td>
+									</tr>
+									<tr>
+										<td><strong>Name:</strong> {{p.userFName}}
+											{{p.userLName}}</td>
+									</tr>
+								</table>
+							</div>
+							<div class="col-md-4">
+								<a href="" class="btn btn-success"
+									data-ng-click="acceptRequest(p.userID)">Accept Request</a>
+							
+							
+								<a href="" class="btn btn-danger"
+									data-ng-click="rejectRequest(p.userID)">Reject Request</a>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+		
+
+
+
+
+
+
+
+ <div id="sentRequests" class="tab-pane fade">
+						<h3>Sent Requests</h3>
+						<div data-ng-if="sentRequest">
+							<div class="row" data-ng-repeat="s in sentRequest">
+								<div class="col-sm-2">	
+									<p style="text-align: center;"><img data-ng-src="c_resources/images/{{s.friendID}}" onerror="this.src='c_resources/images/profilepic.png'" class="img-circle" height="75" width="75"></p>
+								</div>		
+								<div class="col-sm-8">
+									<table class="table">
+										<tr>
+											<td><strong>UserName:</strong><a data-ng-click="getProfile(s.friendID)" > {{s.friendID}} </a></td>
+										</tr>
+										<tr>
+											<td><strong>Name:</strong> {{s.friendFName}} {{s.friendLName}}</td>
+										</tr>
+									</table>					
+								</div>
+								<div class="col-sm-2">
+									<a class="btn btn-danger" href="" data-ng-click="cancelRequest(s.friendID)">Cancel Request</a>	
+								</div>
+						</div>
+					</div>
+						<div data-ng-if="!sentRequest">
+							You have no sent requests.
+						</div>
+    			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+				<div id="myJobs" class="tab-pane fade">
+					<h3>Jobs Applied For</h3>
+					<div data-ng-if="myJobs">
+						<div class="row" data-ng-repeat="m in myJobs">
+							<div class="col-sm-2">
+								<p style="text-align: center;">
+									<img data-ng-src="c_resources/images/{{m.username}}"
+										onerror="this.src='c_resources/images/profilepic.png'"
+										class="img-circle" height="75" width="75">
+								</p>
+							</div>
+							<div class="col-sm-8">
+								<table class="table">
+									<tr>
+										<td><strong>Organization: </strong>{{m.company}}</td>
+									</tr>
+									<tr>
+										<td><strong>Position: </strong>{{m.position}}</td>
+										<td><strong>Location: </strong>{{m.location}}</td>
+									</tr>
+									<tr>
+										<td><strong>Applied on: </strong>{{m.date}}</td>
+									</tr>
+								</table>
+							</div>
+							<div class="col-sm-2"></div>
+						</div>
+					</div>
+					<div data-ng-if="!myJobs">You have not applied for any jobs.
+					</div>
+				</div>
+
+
+
+	</div>
 		</div>
 	</div>
 </div>

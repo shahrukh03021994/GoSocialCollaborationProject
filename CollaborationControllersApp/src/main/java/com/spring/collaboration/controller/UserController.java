@@ -1,5 +1,9 @@
 package com.spring.collaboration.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -10,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.collaboration.domain.User;
+import com.spring.collaboration.service.FriendService;
 import com.spring.collaboration.service.UserService;
 import com.spring.collaboration.util.Date_Time;
 
@@ -28,8 +34,11 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
+	FriendService friendService;
+	@Autowired
 	private User user;
 	@Autowired
+	
 	HttpSession session;
 	
 	@RequestMapping(value="/register",method=RequestMethod.POST)
@@ -134,7 +143,7 @@ public class UserController {
 				Date_Time dt = new Date_Time();
 				user.setLast_seen(dt.getDateTime());
 				userService.saveUser(user);
-				//friendDAO.setUsersOnline(user.getUsername());
+				friendService.setUsersOnline(user.getUsername());
 				session.setAttribute("username", user.getUsername());
 				session.setAttribute("role", user.getRole());
 				session.setAttribute("isLoggedIn", "true");
@@ -166,7 +175,7 @@ public class UserController {
 			Date_Time dt = new Date_Time();
 			user.setLast_seen(dt.getDateTime());
 			userService.saveUser(user);
-			//friendDAO.setUsersOffline(session.getAttribute("username").toString());
+			friendService.setUsersOffline(session.getAttribute("username").toString());
 			user = new User();
 			user.setErrorCode("200");
 			user.setErrorMessage("You have logged out.");
@@ -181,6 +190,75 @@ public class UserController {
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
+	
+	@GetMapping("/getUserList")
+	public ResponseEntity<List<User>> getUserList() throws NullPointerException
+	{
+			List<User> list = userService.getAllUser();
+			if (list.isEmpty()) 
+			{
+				user.setErrorCode("100");
+				user.setErrorMessage("Users are not available");
+			}
+			else
+			{
+				DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+				for(User user : list)
+				{
+					user.setErrorCode("200");
+					user.setErrorMessage("Success");
+					if(user.getDob() != null)
+						user.setBirthdate(df.format(user.getDob()));
+				}
+			}
+			return new ResponseEntity<List<User>>(list, HttpStatus.OK);
+	}
+	
+	
+	@PostMapping("/updateUser")
+	public ResponseEntity<User> updateUser(@RequestBody User user)
+	{
+		if(user != null)
+		{
+			boolean value = userService.saveUser(user);
+			if (value == true) 
+			{
+				user.setErrorCode("200");
+				user.setErrorMessage("User updated Successfully");
+			} 
+			else 
+			{
+				user.setErrorCode("100");
+				user.setErrorMessage("Add User Failed");
+				return null;
+			}
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	@GetMapping("/getUser-{id}")
+	public ResponseEntity<User> getUser(@PathVariable("id") String userName) {
+		user = userService.getById(userName);
+
+		if (user == null) {
+			user = new User();
+			user.setErrorCode("404");
+			user.setErrorMessage("User " + userName + " is not found.");
+		}
+		user.setErrorCode("200");
+		user.setErrorMessage("User " + userName + " is found.");
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+
+
 }
 	
 	

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form method="POST" enctype="multipart/form-data"
+      action="http://localhost:8082/CollaborationControllersApp/Upload">
+      <div style="position:relative;">
+        <a class='btn btn-primary' href='javascript:;'>
+            Choose File...
+            <input type="file" name="uploadedFile" style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());' required="required">
+        </a>
+        &nbsp;
+        <span class='label label-info' id="upload-file-info"></span>File to upload: <br><br>
+           <input type="submit" value="Upload" class=btn-primary>
+        
+</div>
+   <!--    
+      <input type="text" name="fileName">
+   File to upload: <input type="file" name="uploadedFile"><br />
+   <input type="submit" value="Upload" class=btn-primary> -->
+   
+</form>
+</body>
+</html>

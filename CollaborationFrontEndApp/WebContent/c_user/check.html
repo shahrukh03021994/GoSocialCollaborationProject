@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body><div class="container">
+	
+	        	<div id="myJobs" class="tab-pane fade">
+						<h3>Jobs Applied For</h3>
+						<div data-ng-if="myJobs">
+							<div class="row" data-ng-repeat="m in myJobs">
+								<div class="col-sm-2">	
+									<p style="text-align: center;"><img data-ng-src="c_resources/images/{{m.username}}" onerror="this.src='c_resources/images/profilepic.png'" class="img-circle" height="75" width="75"></p>
+								</div>		
+								<div class="col-sm-8">
+									<table class="table">
+										<tr>
+											<td><strong>Organization: </strong>{{m.company}}</td>
+										</tr>
+										<tr>
+											<td><strong>Position: </strong>{{m.position}}</td>
+											<td><strong>Location: </strong>{{m.location}}</td>
+										</tr>
+										<tr>
+											<td><strong>Applied on: </strong>{{m.date}}</td>
+										</tr>
+									</table>					
+								</div>
+								<div class="col-sm-2">
+								</div>
+						</div>
+					</div>
+						<div data-ng-if="!myJobs">
+							You have not applied for any jobs.
+						</div>
+    			</div>
+			
+			</div>
+</body>
+</html>
