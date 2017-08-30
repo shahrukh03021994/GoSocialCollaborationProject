@@ -15,7 +15,7 @@ app.controller('UserController',function($scope, UserService, $location, $rootSc
 						isOnline:'',
 						birthdate:'',
 						last_seen:'',
-						errorMsg:'',
+						errorMessage:'',
 						errorCode:'',};
 
 					$scope.users;
@@ -52,6 +52,8 @@ app.controller('UserController',function($scope, UserService, $location, $rootSc
 					$scope.authenticate = function(user)
 					{
 						console.log("Authenticate Function");
+						console.log(" user "+$scope.user.username)
+						console.log(" password "+$scope.user.password)
 						UserService.authenticate(user)
 						.then 
 						(
@@ -60,23 +62,31 @@ app.controller('UserController',function($scope, UserService, $location, $rootSc
 								$scope.user = d;
 								console.log("User ErrorCode - "+$scope.user.errorCode)
 								console.log(" status "+$scope.user.status)
-								console.log(" uservv"+$scope.user.username)
+								console.log(" user "+$scope.user.username)
+								console.log(" password "+$scope.user.password)
 								if($scope.user.status == 'R')
 									{
 										alert("Your Registeration is Rejected. Please Contact ADMIN");
 										user.setErrorCode("404");
 										user.setErrorMessage("Your Registeration is Rejected");
 									}
-								if($scope.user.status == 'N')
+								else if($scope.user.status == 'N')
 								{
 									alert("Your Registeration is Not Yet Approved. Please wait for some time.");
 									user.setErrorCode("404");
 									user.setErrorCode("Your Registeration is Not Approved");
 								}
-								if($scope.user.username ==null)
+								else if($scope.user.errorCode == 407)
 								{
-									alert("Invalid Username or Password");
+									alert($scope.user.errorMessage);
 									console.log("Invalid Username or Password")
+									username:''
+									password:''
+									$location.path("/login");
+								}
+								else if($scope.user.errorCode == 408)
+								{
+									alert($scope.user.errorMessage);
 									$location.path("/login");
 								}
 								
@@ -111,7 +121,6 @@ app.controller('UserController',function($scope, UserService, $location, $rootSc
 								}
 							}, 	function(errResponse)
 							{
-								console.error("Error Authenticating User");
 								$scope.message = "Invalid username or password.";
 								$location.path("/login");
 							}

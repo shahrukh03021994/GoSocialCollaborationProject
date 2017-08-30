@@ -55,7 +55,7 @@ app.service('ForumService', function($http, $q, $location, $rootScope)
 				{
 					console.log("forum reply in service ")
 					console.log(response)
-					$rootScope.Replies=response.data;
+					$rootScope.forumReply=response.data;
 					return response;
 				});
 		},

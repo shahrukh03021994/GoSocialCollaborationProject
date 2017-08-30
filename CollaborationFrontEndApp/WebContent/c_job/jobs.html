@@ -52,7 +52,7 @@ body
 					<tr style="font: bold;">
 						<td colspan="3">Description: {{j.description}}</td>
 					</tr>
-					<tr>
+					<tr data-ng-show="currentUser.username">
 						<td colspan="3"><p style="text-align: right"><a href="" class="btn btn-primary btn-lg" data-ng-click="applyJob(j)">Apply Job</a></p>
 					</tr>
 				</table>

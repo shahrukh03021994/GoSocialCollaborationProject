@@ -28,12 +28,11 @@ body
 	<br>
 	<p style="text-align: justify; font: bold;">{{gforum.description}}</p>
 </div>
-<h4 data-ng-repeat="c in Replies">{{c.reply}}</h4>
-<h3 style="font: italic; text-align: center;" data-ng-show="Replies">Comments</h3>
-<div class="row" data-ng-repeat="c in Replies">
+<h3 style="font: italic; text-align: center;" data-ng-show="forumReply">Comments</h3>
+<div class="row" data-ng-repeat="f in forumReply">
 	<div class="col-sm-3"><br><p style="text-align: right;"><img data-ng-src="c_resources/images/{{c.username}}" onerror="this.src='images/profilepic.png'" class="img-circle" height="45" width="45"></p></div>
-	<div class="col-sm-6" style="box-shadow: 5px 5px 5px #888888;" ><br><font style="font-size: large;">{{c.username}}</font> on {{c.postedAt}}
-	<br>{{c.reply}}<br>&nbsp;<br>
+	<div class="col-sm-6" style="box-shadow: 5px 5px 5px #888888;" ><br><font style="font-size: large;">{{f.username}}</font> on {{f.postedAt}}
+	<br>{{f.reply}}<br>&nbsp;<br>
 	</div>
 	<div class="col-sm-3">
 	<br>

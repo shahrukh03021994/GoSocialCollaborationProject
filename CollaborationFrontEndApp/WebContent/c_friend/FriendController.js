@@ -95,7 +95,7 @@ app.controller('FriendController', function($scope, $location, FriendService)
 						console.log("Entering Remove Friend "+friendID)
 						console.log(response.status)
 						alert('Friend Removed')
-						$location.path("/myFriends")
+						$location.path("/frrd")
 					}, function(errResponse)
 					{
 						console.log("Error removing friend")

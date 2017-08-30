@@ -98,6 +98,7 @@ public class UserController {
 	
 	
 	
+	@SuppressWarnings("unused")
 	@PostMapping("/login")
 	public ResponseEntity<User> validateUser(@RequestBody User user) 
 	{
@@ -106,13 +107,41 @@ public class UserController {
 		User value = userService.validateUser(user.getUsername(), user.getPassword());
 		System.out.println(value.getStatus());
 		System.out.println("Status " +user.getStatus());
+		System.out.println(user.getPassword()+" "+user.getUsername()+"  ----- "  +value.getPassword()+"  "+value.getUsername());
+		if(user.getUsername().equals(value.getUsername())==true )
+		{
 		
-		if (value.getUsername()==null && value.getPassword()==null )
+		if (user.getPassword().equals(value.getPassword())==true )
+		{
+			System.out.println("nulll.....AAAAAAAAAAAAAAAAAAAAAAAAA.......");
+
+			user = userService.getById(user.getUsername());
+			user.setIsOnline('Y');
+			Date_Time dt = new Date_Time();
+			user.setLast_seen(dt.getDateTime());
+			userService.saveUser(user);
+			friendService.setUsersOnline(user.getUsername());
+			session.setAttribute("username", user.getUsername());
+			session.setAttribute("role", user.getRole());
+			session.setAttribute("isLoggedIn", "true");
+			session.setAttribute("status", user.getStatus());
+			if(user.getDob()!=null)
+				user.setBirthdate( dt.toStringDate(user.getDob()));
+			
+			user.setErrorCode("200");
+			user.setErrorMessage("Success");
+			System.out.println("Name = "+session.getAttribute("username").toString());
+			System.out.println("Role = "+session.getAttribute("role").toString());
+			System.out.println(session.getAttribute("status").toString());
+		}
+		else
 		{
 			//user = new User();
-			value.setErrorCode("404");
+			value.setErrorCode("407");
 			value.setErrorMessage("Wrong username or password.");
 			System.out.println("nulll............");
+		
+		}
 		}
 		else
 		{
@@ -125,7 +154,7 @@ public class UserController {
 				value.setErrorMessage("Registeration is rejected. Please Contact Admin");
 
 			}
-			if(value.getStatus()=='N')
+			else if(value.getStatus()=='N')
 			{
 				System.out.println("nulll.....nnnnnnnnnnnnnnnnnnnnn.......");
 
@@ -136,27 +165,9 @@ public class UserController {
 			}
 			else
 			{
-				System.out.println("nulll.....AAAAAAAAAAAAAAAAAAAAAAAAA.......");
-
-				user = userService.getById(user.getUsername());
-				user.setIsOnline('Y');
-				Date_Time dt = new Date_Time();
-				user.setLast_seen(dt.getDateTime());
-				userService.saveUser(user);
-				friendService.setUsersOnline(user.getUsername());
-				session.setAttribute("username", user.getUsername());
-				session.setAttribute("role", user.getRole());
-				session.setAttribute("isLoggedIn", "true");
-				session.setAttribute("status", user.getStatus());
-				if(user.getDob()!=null)
-					user.setBirthdate( dt.toStringDate(user.getDob()));
-				
-				user.setErrorCode("200");
-				user.setErrorMessage("Success");
-				System.out.println("Name = "+session.getAttribute("username").toString());
-				System.out.println("Role = "+session.getAttribute("role").toString());
-				System.out.println(session.getAttribute("status").toString());
-
+				value.setErrorCode("408");
+				value.setErrorMessage("Not a Registerd User");
+				System.out.println("user null condition............");
 			}
 		}
 

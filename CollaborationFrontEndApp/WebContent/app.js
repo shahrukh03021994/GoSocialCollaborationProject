@@ -37,6 +37,7 @@ app.config(function($routeProvider, $locationProvider)
 	.when('/viewBlogs', {
 		templateUrl : 'c_blog/blogs.html',
 		controller : 'BlogController'
+			
 	}).when('/viewBlog', {
 		templateUrl : 'c_blog/viewBlog.html',
 
@@ -145,6 +146,9 @@ app.config(function($routeProvider, $locationProvider)
 		{
 			templateUrl : 'c_friend/viewProfile.html',
 		})		
+		.when('/frrd', {
+		templateUrl : 'c_friend/removeFriendRD.html',
+	})
 
 	.otherwise({
 		redirectTo : '/'
@@ -159,7 +163,7 @@ app.run(function($rootScope, $location, $cookieStore, $http) {
 		var userPages = [ '/myProfile', 'myFriends', 'pendingRequests',
 				'sentRequests', '/upload', '/viewUsers', '/addBlogs',
 				'/addForum', '/viewProfile', '/viewBlogs', '/viewBlog',
-				'/viewForum', '/viewForums' ];
+				'/viewForum', '/viewForums','/applyJob' ];
 		var adminPages = [ '/admin', '/manageUsers', '/manageJobs',
 				'/manageEvents', '/manageForums', '/manageBlogs', '/addEvents',
 				'/addJobs', '/jred', '/ered', '/appliedJobs' ];

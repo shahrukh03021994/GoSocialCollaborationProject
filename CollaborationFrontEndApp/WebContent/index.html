@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="c_resources/css/my.css">
 <link rel="stylesheet" href="c_resources/css/default.css">
 <link rel="stylesheet" href="c_resources/css/style.css">
-<!-- <link rel="stylesheet" href="c_resources/css/theme.css"> -->
+<link rel="stylesheet" href="c_resources/css/theme.css"> 
 
 <script type="text/javascript" src="c_resources/js/angular.min.js"></script>
   <script src="c_resources/js/angular-route.min.js"></script>
@@ -155,8 +155,8 @@ body
 
 
 
-	<nav class="navbar navbar-default navbar-fixed-bottom"
-		style="background-color: black; color: white;">
+	<nav class="navbar navbar-inverse navbar-fixed-bottom">
+		<!-- style="background-color: #17879d; color: white;" -->
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -164,7 +164,7 @@ body
 				id="bs-example-navbar-collapse-1">
 
 				<marquee width="1400px" behavior="slide" direction="left"
-					scrollamount="7">
+					scrollamount="7" style="color: red;">
 					<h4>Website developed and maintained by Mohammed Shahrukh Khan</h4>
 				</marquee>
 				
@@ -174,9 +174,9 @@ body
 
 
 
-	<ul class="nav navbar-nav navbar-right">
+	<ul class="nav navbar-nav navbar-right" style="padding-right: 20px;">
         <li class="dropup">
-          <a style="color: white;" class="dropdown-toggle" data-toggle="dropdown" href="">Chat<span class="caret"></span></a>
+        <a style="color: white;" class="dropdown-toggle" data-toggle="dropdown" href=""> <b> Chat</b><span class="caret"></span></a>
 		 <ul class="dropdown-menu" data-ng-controller="FriendController">
             <li data-ng-repeat="f in friends">
             <table>

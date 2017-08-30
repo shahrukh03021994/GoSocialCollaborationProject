@@ -1,12 +1,36 @@
 
 <head>
 <meta charset="ISO-8859-1">
+<script type="text/javascript">
+	document.getElementById("uploadBtn").onchange = function() {
+		document.getElementById("uploadFile").value = this.value;
+	};
+</script>
+
 <style type="text/css">
 body {
-	background-image: url("c_resources/images/gray.jpg");
+background-color:lightgray;
 	background-repeat: no-repeat;
 	background-size: 100%;
 	background-attachment: fixed;
+}
+
+.fileUpload {
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+}
+
+.fileUpload input.upload {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity = 0);
 }
 </style>
 </head>
@@ -20,24 +44,46 @@ body {
 					onerror="this.src='c_resources/images/profilepic.png'" height="250"
 					width="250">
 			</p>
-			<p style="text-align: center;">
-				<a class="btn btn-default" href="#/upload">Upload New Profile
-					Photo?</a>
-			</p>
+
+
+
+			<form method="POST" enctype="multipart/form-data"
+				action="http://localhost:8082/CollaborationControllersApp/Upload">
+
+				<div class="fileUpload btn btn-primary">
+
+					<span>Upload</span> <input type="file" name="uploadedFile"
+						class="upload" name="file_source" size="40" id="uploadBtn"
+						required="required">
+
+
+
+				</div>
+				<input id="uploadFile" placeholder="Choose File" disabled="disabled" />
+				<center>
+					<input type="submit" value="CHANGE PICTURE" class=btn-primary>
+				</center>
+
+			</form>
 		</div>
+
+
+
+
+
 		<div class="col-sm-8">
 
 			<ul class="nav nav-tabs nav-justified">
-				<li role="presentation"><a data-toggle="tab" href="#myProfile">My
-						Profile</a></li>
-				<li role="presentation"><a data-toggle="tab" href="#myFriends">My
-						Friends</a></li>
+				<li role="presentation"><a data-toggle="tab" href="#myProfile"><b>My
+						Profile</b></a></li>
+				<li role="presentation"><a data-toggle="tab" href="#myFriends"><b>My
+						Friends</b></a></li>
 				<li role="presentation"><a data-toggle="tab"
-					href="#pendingRequests">Pending Requests</a></li>
+					href="#pendingRequests"><b>Pending Requests</b></a></li>
 				<li role="presentation"><a data-toggle="tab"
-					href="#sentRequests">Sent Requests</a></li>
-				<li role="presentation"><a data-toggle="tab" href="#myJobs">Applied
-						Jobs</a></li>
+					href="#sentRequests"><b>Sent Requests</b></a></li>
+				<li role="presentation"><a data-toggle="tab" href="#myJobs"><b>Applied
+						Jobs</b></a></li>
 			</ul>
 
 			<div class="tab-content">
@@ -114,43 +160,63 @@ body {
 
 
 
-<div id="myFriends" class="tab-pane fade">
-						<h3>Friends List</h3>
-						<div data-ng-if="friends">
+				<div id="myFriends" class="tab-pane fade">
+					<h3>Friends List</h3>
+					<div data-ng-if="friends">
 						<div class="row" data-ng-repeat="f in friends">
 							<div class="col-sm-2">
-								<p style="text-align: center;"><img data-ng-if="f.friendID==currentUser.username" data-ng-src="c_resources/images/{{f.userID}}" onerror="this.src='c_resources/images/profilepic.png'" class="img-circle" height="75" width="75"></p>
-								<p style="text-align: center;"><img data-ng-if="f.userID==currentUser.username" data-ng-src="c_resources/images/{{f.friendID}}" onerror="this.src='c_resources/images/profilepic.png'" class="img-circle" height="75" width="75"></p>
+								<p style="text-align: center;">
+									<img data-ng-if="f.friendID==currentUser.username"
+										data-ng-src="c_resources/images/{{f.userID}}"
+										onerror="this.src='c_resources/images/profilepic.png'"
+										class="img-circle" height="75" width="75">
+								</p>
+								<p style="text-align: center;">
+									<img data-ng-if="f.userID==currentUser.username"
+										data-ng-src="c_resources/images/{{f.friendID}}"
+										onerror="this.src='c_resources/images/profilepic.png'"
+										class="img-circle" height="75" width="75">
+								</p>
 							</div>
 							<div class="col-sm-8">
 								<table class="table">
 									<tr>
-											<td data-ng-if="f.friendID==currentUser.username"><strong>UserName:</strong><a href="" data-ng-click="getProfile(f.userID)" > {{f.userID}}</a></td>
-											<td data-ng-if="f.userID==currentUser.username"><strong>UserName:</strong><a href="" data-ng-click="getProfile(f.friendID)" > {{f.friendID}}</a></td>
-											
+										<td data-ng-if="f.friendID==currentUser.username"><strong>UserName:</strong><a
+											href="" data-ng-click="getProfile(f.userID)">
+												{{f.userID}}</a></td>
+										<td data-ng-if="f.userID==currentUser.username"><strong>UserName:</strong><a
+											href="" data-ng-click="getProfile(f.friendID)">
+												{{f.friendID}}</a></td>
+
 									</tr>
 									<tr>
-											<td data-ng-if="f.friendID==currentUser.username"><strong>Name:</strong> {{f.userFName}} {{f.userLName}}</td>
-											<td data-ng-if="f.userID==currentUser.username"><strong>Name:</strong> {{f.friendFName}} {{f.friendLName}}</td>
+										<td data-ng-if="f.friendID==currentUser.username"><strong>Name:</strong>
+											{{f.userFName}} {{f.userLName}}</td>
+										<td data-ng-if="f.userID==currentUser.username"><strong>Name:</strong>
+											{{f.friendFName}} {{f.friendLName}}</td>
 									</tr>
 									<tr>
-											<td data-ng-if="f.friendID==currentUser.username"><strong>Online:</strong> {{f.userIsOnline}}</td>
-											<td data-ng-if="f.userID==currentUser.username"><strong>Online:</strong> {{f.friendisOnline}}</td>
+										<td data-ng-if="f.friendID==currentUser.username"><strong>Online:</strong>
+											{{f.userIsOnline}}</td>
+										<td data-ng-if="f.userID==currentUser.username"><strong>Online:</strong>
+											{{f.friendisOnline}}</td>
 									</tr>
-									
+
 								</table>
 							</div>
 							<div class="col-sm-2">
-								<a class="btn btn-danger" data-ng-if="f.friendID==currentUser.username" href="" data-ng-click="removeFriend(f.userID)">Remove Friend</a>
-								<a class="btn btn-danger" data-ng-if="f.userID==currentUser.username" href="" data-ng-click="removeFriend(f.friendID)">Remove Friend</a>
+								<a class="btn btn-danger"
+									data-ng-if="f.friendID==currentUser.username" href=""
+									data-ng-click="removeFriend(f.userID)">Remove Friend</a> <a
+									class="btn btn-danger"
+									data-ng-if="f.userID==currentUser.username" href=""
+									data-ng-click="removeFriend(f.friendID)">Remove Friend</a>
 							</div>
 						</div>
-						
-						</div>
-						<div data-ng-if="!friends">
-							You have no friends.
-						</div>
+
 					</div>
+					<div data-ng-if="!friends">You have no friends.</div>
+				</div>
 
 
 
@@ -175,12 +241,12 @@ body {
 							<div class="col-md-2">
 								<p style="text-align: center;">
 									<img data-ng-src="c_resources/images/{{p.userID}}"
-										onerror="this.src='c_resources/images/profilepic.png'" class="img-circle"
-										height="75" width="75">
+										onerror="this.src='c_resources/images/profilepic.png'"
+										class="img-circle" height="75" width="75">
 								</p>
 							</div>
 							<div class="col-md-6">
-							
+
 								<table class="table">
 									<tr>
 										<td><strong>UserName:</strong><a
@@ -194,18 +260,17 @@ body {
 							</div>
 							<div class="col-md-4">
 								<a href="" class="btn btn-success"
-									data-ng-click="acceptRequest(p.userID)">Accept Request</a>
-							
-							
-								<a href="" class="btn btn-danger"
+									data-ng-click="acceptRequest(p.userID)">Accept Request</a> <a
+									href="" class="btn btn-danger"
 									data-ng-click="rejectRequest(p.userID)">Reject Request</a>
 							</div>
 						</div>
+						
 					</div>
 
+					<div data-ng-if="!pendingRequest">You have no pending request.</div>
 
 				</div>
-		
 
 
 
@@ -213,32 +278,38 @@ body {
 
 
 
- <div id="sentRequests" class="tab-pane fade">
-						<h3>Sent Requests</h3>
-						<div data-ng-if="sentRequest">
-							<div class="row" data-ng-repeat="s in sentRequest">
-								<div class="col-sm-2">	
-									<p style="text-align: center;"><img data-ng-src="c_resources/images/{{s.friendID}}" onerror="this.src='c_resources/images/profilepic.png'" class="img-circle" height="75" width="75"></p>
-								</div>		
-								<div class="col-sm-8">
-									<table class="table">
-										<tr>
-											<td><strong>UserName:</strong><a data-ng-click="getProfile(s.friendID)" > {{s.friendID}} </a></td>
-										</tr>
-										<tr>
-											<td><strong>Name:</strong> {{s.friendFName}} {{s.friendLName}}</td>
-										</tr>
-									</table>					
-								</div>
-								<div class="col-sm-2">
-									<a class="btn btn-danger" href="" data-ng-click="cancelRequest(s.friendID)">Cancel Request</a>	
-								</div>
+
+				<div id="sentRequests" class="tab-pane fade">
+					<h3>Sent Requests</h3>
+					<div data-ng-if="sentRequest">
+						<div class="row" data-ng-repeat="s in sentRequest">
+							<div class="col-sm-2">
+								<p style="text-align: center;">
+									<img data-ng-src="c_resources/images/{{s.friendID}}"
+										onerror="this.src='c_resources/images/profilepic.png'"
+										class="img-circle" height="75" width="75">
+								</p>
+							</div>
+							<div class="col-sm-8">
+								<table class="table">
+									<tr>
+										<td><strong>UserName:</strong><a
+											data-ng-click="getProfile(s.friendID)"> {{s.friendID}} </a></td>
+									</tr>
+									<tr>
+										<td><strong>Name:</strong> {{s.friendFName}}
+											{{s.friendLName}}</td>
+									</tr>
+								</table>
+							</div>
+							<div class="col-sm-2">
+								<a class="btn btn-danger" href=""
+									data-ng-click="cancelRequest(s.friendID)">Cancel Request</a>
+							</div>
 						</div>
 					</div>
-						<div data-ng-if="!sentRequest">
-							You have no sent requests.
-						</div>
-    			</div>
+					<div data-ng-if="!sentRequest">You have no sent requests.</div>
+				</div>
 
 
 
@@ -286,7 +357,7 @@ body {
 
 
 
-	</div>
+			</div>
 		</div>
 	</div>
 </div>

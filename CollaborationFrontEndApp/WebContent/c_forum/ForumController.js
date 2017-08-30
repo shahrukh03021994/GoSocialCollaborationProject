@@ -69,8 +69,8 @@ app.controller('ForumController', function($scope, $location, ForumService) {
 			{
 				console.log("Get Comments for "+id)
 				console.log(response.data)
-				$scope.Replies = response.data;
-				console.log($scope.Replies)
+				$scope.forumReply = response.data;
+				console.log($scope.forumReply)
 				
 				
 			}
@@ -108,7 +108,7 @@ app.controller('ForumController', function($scope, $location, ForumService) {
 			{
 				console.log("Get Comments for "+id)
 				console.log(response.data)
-				$scope.Replies=response
+				$scope.forumReply=response
 			}
 		)
 		$location.path("/fmred")
